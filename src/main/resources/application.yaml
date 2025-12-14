@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: wifyt
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wifyt
+    username: postgres
+    password: swiss18
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://root:swiss18@localhost:27017/wifytMongo
