@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.enums;
 
-public enum Roles {
+public enum UserRoles {
     MEMBER,
     ADMIN,
     OWNER

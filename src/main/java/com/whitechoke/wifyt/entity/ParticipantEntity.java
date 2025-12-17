@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.entity;
 
-import com.whitechoke.wifyt.enums.Roles;
+import com.whitechoke.wifyt.enums.UserRoles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,7 +29,7 @@ public class ParticipantEntity {
     private UserEntity user;
 
     @Column(name = "role")
-    private Roles role;
+    private UserRoles role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
