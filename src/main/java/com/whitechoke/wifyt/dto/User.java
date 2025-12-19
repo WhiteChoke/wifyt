@@ -1,5 +1,6 @@
 package com.whitechoke.wifyt.dto;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public record User(
@@ -7,6 +8,7 @@ public record User(
         String username,
         String phoneNumber,
         String email,
-        String password
+        String password,
+        Instant createdAt
 ) {
 }
