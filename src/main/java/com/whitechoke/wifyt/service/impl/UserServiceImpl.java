@@ -8,10 +8,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -21,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User userToCreate) {
-        if (userToCreate.id() != null && userToCreate.createdAt() != null) {
+        if (userToCreate.id() != null || userToCreate.createdAt() != null) {
             throw new IllegalArgumentException("User id and creation time should be empty");
         }
 
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(UUID id, User userToUpdate) {
 
-        if (userToUpdate.id() != null && userToUpdate.createdAt() != null) {
+        if (userToUpdate.id() != null || userToUpdate.createdAt() != null) {
             throw new IllegalArgumentException("User id and creation time should be empty");
         }
 

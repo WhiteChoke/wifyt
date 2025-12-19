@@ -2,7 +2,9 @@ package com.whitechoke.wifyt.dto.mapper;
 
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.entity.UserEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public User toDomain(UserEntity entity) {
