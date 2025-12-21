@@ -63,13 +63,25 @@ public class ChatServiceImpl implements ChatService {
             throw new IllegalArgumentException("Chat name cannot be empty");
         }
 
+        var updatedChat = chatMapper.toEntity(newChat);
+        updatedChat.setId(id);
+        updatedChat.setCreatedAt(oldChat.getCreatedAt());
 
+        chatRepository.save(updatedChat);
 
-        return null;
+        log.info("Updated chat with id: {}", id);
+
+        return chatMapper.toDomain(updatedChat);
     }
 
     @Override
     public void deleteChat(UUID id) {
 
+        var chatToDelete = chatRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));
+
+        chatRepository.delete(chatToDelete);
+
+        log.info("Deleted chat with id: {}", id);
     }
 }
