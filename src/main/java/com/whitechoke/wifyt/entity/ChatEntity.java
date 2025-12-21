@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "chats")
+@AllArgsConstructor
 public class ChatEntity {
 
     @Id
