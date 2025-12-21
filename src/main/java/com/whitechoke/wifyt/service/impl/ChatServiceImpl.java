@@ -75,7 +75,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void deleteChat(UUID id) {
+    public void deleteChatById(UUID id) {
 
         var chatToDelete = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));

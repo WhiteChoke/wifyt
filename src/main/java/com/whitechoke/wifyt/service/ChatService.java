@@ -8,5 +8,5 @@ public interface ChatService {
     Chat createChat(Chat chatToCreate);
     Chat getChatById(UUID id);
     Chat updateChat(UUID id, Chat newChat);
-    void deleteChat(UUID id);
+    void deleteChatById(UUID id);
 }
