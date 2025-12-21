@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
         var createdUser = userRepository.save(userToSave);
 
+        log.info("created new user with id: {}", createdUser.getId());
+
         return mapper.toDomain(createdUser);
     }
 
@@ -56,9 +58,11 @@ public class UserServiceImpl implements UserService {
 
         var updatedUser = mapper.toEntity(userToUpdate);
         updatedUser.setId(id);
-//        updatedUser.setCreatedAt(oldUser.getCreatedAt());
+        updatedUser.setCreatedAt(oldUser.getCreatedAt());
 
         userRepository.save(updatedUser);
+
+        log.info("Updated user with id: {}", id);
 
         return mapper.toDomain(updatedUser);
     }
@@ -70,5 +74,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
 
         userRepository.delete(userToDelete);
+
+        log.info("Deleted user with id: {}", id);
     }
 }
