@@ -1,5 +1,12 @@
 package com.whitechoke.wifyt.service;
 
-public interface ChatService {
+import com.whitechoke.wifyt.dto.Chat;
 
+import java.util.UUID;
+
+public interface ChatService {
+    Chat createChat(Chat chatToCreate);
+    Chat getChatById(UUID id);
+    Chat updateChat(UUID id, Chat newChat);
+    void deleteChat(UUID id);
 }
