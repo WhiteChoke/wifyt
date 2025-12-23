@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("api/v1/participant")
 @AllArgsConstructor
@@ -33,7 +31,7 @@ public class ParticipantController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Participant> getParticipantById(@PathVariable UUID id) {
+    public ResponseEntity<Participant> getParticipantById(@PathVariable Long id) {
 
         var participant = service.getParticipantById(id);
 
@@ -43,7 +41,7 @@ public class ParticipantController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Participant> updateParticipantById(@PathVariable UUID id,
+    public ResponseEntity<Participant> updateParticipantById(@PathVariable Long id,
                                                           @RequestBody Participant participant) {
 
         var updatedParticipant = service.updateParticipant(id, participant);
@@ -54,7 +52,7 @@ public class ParticipantController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Void> deleteParticipantById(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteParticipantById(@PathVariable Long id) {
 
         service.deleteParticipantById(id);
 

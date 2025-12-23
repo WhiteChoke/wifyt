@@ -8,8 +8,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class ParticipantServiceImpl implements ParticipantService {
@@ -40,7 +38,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Participant getParticipantById(UUID id) {
+    public Participant getParticipantById(Long id) {
 
         var participant = participantRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found participant by id: " + id));
@@ -49,7 +47,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Participant updateParticipant(UUID id, Participant newParticipant) {
+    public Participant updateParticipant(Long id, Participant newParticipant) {
 
         var oldParticipant = participantRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found participant by id: " + id));
@@ -69,7 +67,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void deleteParticipantById(UUID id) {
+    public void deleteParticipantById(Long id) {
 
         var participant = participantRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found participant by id: " + id));

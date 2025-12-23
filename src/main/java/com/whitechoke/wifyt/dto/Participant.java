@@ -4,16 +4,15 @@ import com.whitechoke.wifyt.enums.UserRoles;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
-import java.util.UUID;
 
 public record Participant(
         @Null
-        UUID id,
+        Long id,
         @NotNull
-        UUID userId,
+        Long userId,
         @NotNull
         UserRoles role,
         @NotNull
-        UUID chatId
+        Long chatId
 ) {
 }

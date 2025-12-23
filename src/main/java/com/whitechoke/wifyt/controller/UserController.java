@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
-
 @RestController
 @RequestMapping("api/v1/user")
 @AllArgsConstructor
@@ -35,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
 
         var user = service.getUserById(id);
 
@@ -46,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable UUID id,
+    public ResponseEntity<User> updateUser(@PathVariable Long id,
                                            @RequestBody User userToUpdate) {
 
         var updatedUser = service.updateUser(id, userToUpdate);
@@ -58,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<User> deleteUserByID(@PathVariable UUID id) {
+    public ResponseEntity<User> deleteUserByID(@PathVariable Long id) {
 
         service.deleteUserById(id);
 

@@ -14,8 +14,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @AllArgsConstructor
@@ -23,8 +21,8 @@ import java.util.UUID;
 public class ParticipantEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -36,4 +34,6 @@ public class ParticipantEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
     private ChatEntity chat;
+
+    public ParticipantEntity() {}
 }

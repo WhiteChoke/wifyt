@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat getChatById(UUID id) {
+    public Chat getChatById(Long id) {
 
         var chat = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));
@@ -51,7 +50,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat updateChat(UUID id, Chat newChat) {
+    public Chat updateChat(Long id, Chat newChat) {
 
         var oldChat = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));
@@ -75,7 +74,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void deleteChatById(UUID id) {
+    public void deleteChatById(Long id) {
 
         var chatToDelete = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));

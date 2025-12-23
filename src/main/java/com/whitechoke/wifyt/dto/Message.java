@@ -4,15 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public record Message(
         @Null
-        UUID id,
+        Long id,
         @NotNull
-        UUID senderId,
+        Long senderId,
         @NotNull
-        UUID chatId,
+        Long chatId,
         @NotNull
         String message,
         @Null

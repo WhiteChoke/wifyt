@@ -8,7 +8,7 @@ import java.util.UUID;
 @Service
 public interface ParticipantService {
     Participant createParticipant(Participant participantToCreate);
-    Participant getParticipantById(UUID id);
-    Participant updateParticipant(UUID id, Participant newParticipant);
-    void deleteParticipantById(UUID id);
+    Participant getParticipantById(Long id);
+    Participant updateParticipant(Long id, Participant newParticipant);
+    void deleteParticipantById(Long id);
 }

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(UUID id) {
+    public User getUserById(Long id) {
 
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(UUID id, User userToUpdate) {
+    public User updateUser(Long id, User userToUpdate) {
 
         if (userToUpdate.id() != null || userToUpdate.createdAt() != null) {
             throw new IllegalArgumentException("User id and creation time should be empty");
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(UUID id) {
+    public void deleteUserById(Long id) {
 
         var userToDelete = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));

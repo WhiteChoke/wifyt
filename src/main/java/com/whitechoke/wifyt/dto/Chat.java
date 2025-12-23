@@ -6,17 +6,16 @@ import jakarta.validation.constraints.Null;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public record Chat (
         @Null
-        UUID id,
+        Long id,
         @NotNull
         String name,
         @Null
         Instant createdAt,
         @NotNull
         ChatType chatType,
-        List<UUID> participantList
+        List<Long> participantList
 ) {
 }

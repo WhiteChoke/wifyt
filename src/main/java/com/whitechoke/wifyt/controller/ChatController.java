@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("api/v1/chat")
 @AllArgsConstructor
@@ -34,7 +32,7 @@ public class ChatController {
     }
     
     @GetMapping("{id}")
-    public ResponseEntity<Chat> getChatById(@PathVariable UUID id) {
+    public ResponseEntity<Chat> getChatById(@PathVariable Long id) {
         
         var chat = service.getChatById(id);
         
@@ -44,7 +42,7 @@ public class ChatController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Chat> updateChat(@PathVariable UUID id,
+    public ResponseEntity<Chat> updateChat(@PathVariable Long id,
                                            @RequestBody Chat ChatToUpdate) {
 
         var updatedChat = service.updateChat(id, ChatToUpdate);
@@ -55,7 +53,7 @@ public class ChatController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Chat> deleteChatByID(@PathVariable UUID id) {
+    public ResponseEntity<Chat> deleteChatByID(@PathVariable Long id) {
 
         service.deleteChatById(id);
 

@@ -3,16 +3,12 @@ package com.whitechoke.wifyt.dto.mapper;
 import com.whitechoke.wifyt.dto.Chat;
 import com.whitechoke.wifyt.entity.ChatEntity;
 import com.whitechoke.wifyt.entity.ParticipantEntity;
-import com.whitechoke.wifyt.entity.UserEntity;
 import com.whitechoke.wifyt.repository.ParticipantRepository;
-import com.whitechoke.wifyt.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @AllArgsConstructor
@@ -22,7 +18,7 @@ public class ChatMapper {
 
     public Chat toDomain(ChatEntity entity) {
 
-        List<UUID> participantList = entity.getParticipantList() != null
+        List<Long> participantList = entity.getParticipantList() != null
                 ? entity
                 .getParticipantList()
                 .stream()
