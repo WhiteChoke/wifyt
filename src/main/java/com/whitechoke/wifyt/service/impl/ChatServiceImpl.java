@@ -1,9 +1,13 @@
 package com.whitechoke.wifyt.service.impl;
 
 import com.whitechoke.wifyt.dto.Chat;
+import com.whitechoke.wifyt.dto.Participant;
 import com.whitechoke.wifyt.dto.mapper.ChatMapper;
+import com.whitechoke.wifyt.enums.ChatType;
+import com.whitechoke.wifyt.enums.UserRoles;
 import com.whitechoke.wifyt.repository.ChatRepository;
 import com.whitechoke.wifyt.service.ChatService;
+import com.whitechoke.wifyt.service.ParticipantService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,6 +22,7 @@ public class ChatServiceImpl implements ChatService {
 
     private final ChatMapper chatMapper;
     private final ChatRepository chatRepository;
+    private final ParticipantService  participantService;
     private final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @Override
@@ -82,5 +87,27 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.delete(chatToDelete);
 
         log.info("Deleted chat with id: {}", id);
+    }
+
+    @Override
+    public Chat createGroupChat(Long ownerId, Chat chatToCreate) {
+
+        if (chatToCreate.id() != null || chatToCreate.createdAt() != null) {
+            throw new IllegalArgumentException("Chat id and creation time should be empty");
+        }
+        if (chatToCreate.name() == null) {
+            throw new IllegalArgumentException("Chat name cannot be empty");
+        }
+
+        var chatToSave = chatMapper.toEntity(chatToCreate);
+        chatToSave.setCreatedAt(Instant.now());
+        chatToSave.setType(ChatType.GROUP);
+
+        var createdChat = chatRepository.save(chatToSave);
+
+        participantService.createAndSaveParticipantByUserId(ownerId, UserRoles.OWNER, createdChat);
+        participantService.createAndSaveParticipantByUserId(chatToCreate.participantList(), createdChat);
+
+        return chatMapper.toDomain(createdChat);
     }
 }

@@ -38,4 +38,10 @@ public class ParticipantEntity {
     private ChatEntity chat;
 
     public ParticipantEntity() {}
+
+    public ParticipantEntity(UserEntity user, UserRoles role, ChatEntity chat) {
+        this.user = user;
+        this.role = role;
+        this.chat = chat;
+    }
 }

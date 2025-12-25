@@ -9,4 +9,5 @@ public interface ChatService {
     Chat getChatById(Long id);
     Chat updateChat(Long id, Chat newChat);
     void deleteChatById(Long id);
+    Chat createGroupChat(Long ownerId, Chat chatToCreate);
 }

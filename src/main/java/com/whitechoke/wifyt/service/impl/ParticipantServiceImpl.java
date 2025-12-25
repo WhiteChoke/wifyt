@@ -2,17 +2,26 @@ package com.whitechoke.wifyt.service.impl;
 
 import com.whitechoke.wifyt.dto.Participant;
 import com.whitechoke.wifyt.dto.mapper.ParticipantMapper;
+import com.whitechoke.wifyt.entity.ChatEntity;
+import com.whitechoke.wifyt.entity.ParticipantEntity;
+import com.whitechoke.wifyt.entity.UserEntity;
+import com.whitechoke.wifyt.enums.UserRoles;
 import com.whitechoke.wifyt.repository.ParticipantRepository;
+import com.whitechoke.wifyt.repository.UserRepository;
 import com.whitechoke.wifyt.service.ParticipantService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantRepository participantRepository;
+    private final UserRepository userRepository;
     private final ParticipantMapper mapper;
 
     @Override
@@ -73,5 +82,39 @@ public class ParticipantServiceImpl implements ParticipantService {
                 .orElseThrow(() -> new EntityNotFoundException("Not found participant by id: " + id));
 
         participantRepository.delete(participant);
+    }
+
+    @Override
+    public void createAndSaveParticipantByUserId(Long id, UserRoles role, ChatEntity chat) {
+
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
+
+        var participant = new ParticipantEntity(
+                user,
+                role,
+                chat
+        );
+
+        participantRepository.save(participant);
+    }
+
+    @Override
+    public void createAndSaveParticipantByUserId(List<Long> ids, ChatEntity chat) {
+
+        var users = userRepository.findAllById(ids);
+        List<ParticipantEntity> participantEntityList = new ArrayList<>();
+
+        for  (UserEntity user : users) {
+            participantEntityList.add(
+                    new ParticipantEntity(
+                            user,
+                            UserRoles.MEMBER,
+                            chat
+                    )
+            );
+        }
+
+        participantRepository.saveAll(participantEntityList);
     }
 }

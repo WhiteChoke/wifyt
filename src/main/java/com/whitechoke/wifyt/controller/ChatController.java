@@ -31,11 +31,11 @@ public class ChatController {
                 .body(createdChat);
     }
 
-    @PostMapping("ownerId")
+    @PostMapping("{ownerId}")
     public ResponseEntity<Chat> createGroupChat(@RequestBody Chat chatToCreate,
                                                 @PathVariable Long ownerId) {
 
-        var createdChat = service.createChat(chatToCreate);
+        var createdChat = service.createGroupChat(ownerId, chatToCreate);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
