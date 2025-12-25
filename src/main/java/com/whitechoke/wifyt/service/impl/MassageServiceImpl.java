@@ -6,6 +6,9 @@ import com.whitechoke.wifyt.repository.MessageRepository;
 import com.whitechoke.wifyt.service.MessageService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,8 +19,11 @@ public class MassageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
     private final MessageMapper mapper;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final Logger logger = LoggerFactory.getLogger(MassageServiceImpl.class);
 
     @Override
+
     public Message createMessage(Message messageToCreate) {
         if (
                 messageToCreate.id() != null ||
@@ -42,7 +48,7 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getMessageById(Long id) {
+    public Message getMessageById(String id) {
         var message = messageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found message by id: " + id));
 
@@ -50,7 +56,7 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message updateMessage(Long id, Message newMessage) {
+    public Message updateMessage(String id, Message newMessage) {
         if (
                 newMessage.id() != null ||
                 newMessage.createdAt() != null
@@ -78,10 +84,18 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteMessageById(Long id) {
+    public void deleteMessageById(String id) {
         var message = messageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found message by id: " + id));
 
         messageRepository.delete(message);
+    }
+
+    @Override
+    public void handleIncomingMessage(Long chatId, Message message) {
+
+        var response = createMessage(message);
+
+        simpMessagingTemplate.convertAndSend("/topic/chat/" + chatId, response);
     }
 }

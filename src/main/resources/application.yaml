@@ -12,4 +12,4 @@ spring:
     show-sql: true
   data:
     mongodb:
-      uri: mongodb://root:swiss18@localhost:27017/wifytMongo
+      uri: mongodb://localhost:27017/wifytMongo

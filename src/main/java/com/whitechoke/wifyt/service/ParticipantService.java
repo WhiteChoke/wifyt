@@ -3,8 +3,6 @@ package com.whitechoke.wifyt.service;
 import com.whitechoke.wifyt.dto.Participant;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public interface ParticipantService {
     Participant createParticipant(Participant participantToCreate);

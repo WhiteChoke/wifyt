@@ -1,7 +1,5 @@
 package com.whitechoke.wifyt.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +13,9 @@ import java.time.Instant;
 public class MessageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private ParticipantEntity sender;
-    private ChatEntity chat;
+    private String id;
+    private Long senderId;
+    private Long chatId;
     // will soon be replaced by
     private String message;
     private Instant created_at;

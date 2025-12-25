@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Document
 public class MessageStatus {
@@ -17,7 +18,7 @@ public class MessageStatus {
     private Status status;
     private Instant updatedAt;
     private Long userId;
-    private Long messageId;
+    private String messageId;
 
 
 }
