@@ -5,9 +5,9 @@ import com.whitechoke.wifyt.dto.Chat;
 import java.util.UUID;
 
 public interface ChatService {
-    Chat createChat(Chat chatToCreate);
+    Chat createPersonalChat(Chat chatToCreate);
+    Chat createGroupChat(Long ownerId, Chat chatToCreate);
     Chat getChatById(Long id);
     Chat updateChat(Long id, Chat newChat);
     void deleteChatById(Long id);
-    Chat createGroupChat(Long ownerId, Chat chatToCreate);
 }

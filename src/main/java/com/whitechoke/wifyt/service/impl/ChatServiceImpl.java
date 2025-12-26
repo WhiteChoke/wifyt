@@ -26,7 +26,7 @@ public class ChatServiceImpl implements ChatService {
     private final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @Override
-    public Chat createChat(Chat chatToCreate) {
+    public Chat createPersonalChat(Chat chatToCreate) {
 
         if (chatToCreate.id() != null || chatToCreate.createdAt() != null) {
             throw new IllegalArgumentException("Chat id and creation time should be empty");
@@ -37,8 +37,11 @@ public class ChatServiceImpl implements ChatService {
 
         var chat = chatMapper.toEntity(chatToCreate);
         chat.setCreatedAt(Instant.now());
+        chat.setType(ChatType.PERSONAL);
 
         var createdChat = chatRepository.save(chat);
+
+        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat);
 
         log.info("created chat with id: {}", createdChat.getId());
 

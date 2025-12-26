@@ -24,7 +24,7 @@ public class ChatController {
     @PostMapping
     public ResponseEntity<Chat> createPersonalChat(@RequestBody Chat chatToCreate) {
         
-        var createdChat = service.createChat(chatToCreate);
+        var createdChat = service.createPersonalChat(chatToCreate);
         
         return ResponseEntity
                 .status(HttpStatus.CREATED)
