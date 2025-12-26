@@ -56,21 +56,15 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public Participant updateParticipant(Long id, Participant newParticipant) {
+    public Participant updateParticipantRole(Participant participant) {
 
-        var oldParticipant = participantRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found participant by id: " + id));
+        var participantToUpdate = participantRepository
+                .getParticipantBy(participant.userId(), participant.chatId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found participant"));
 
-        if (newParticipant.id() != null){
-            throw new IllegalArgumentException("Participant id should be empty");
-        }
+        participantToUpdate.setRole(participant.role());
 
-        var updatedParticipant = mapper.toEntity(newParticipant);
-        updatedParticipant.setId(oldParticipant.getId());
-        updatedParticipant.setChat(oldParticipant.getChat());
-        updatedParticipant.setUser(oldParticipant.getUser());
-
-        participantRepository.save(updatedParticipant);
+        var updatedParticipant = participantRepository.save(participantToUpdate);
 
         return mapper.toDomain(updatedParticipant);
     }

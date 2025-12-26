@@ -41,11 +41,10 @@ public class ParticipantController {
                 .body(participant);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Participant> updateParticipantById(@PathVariable Long id,
-                                                          @RequestBody Participant participant) {
+    @PutMapping()
+    public ResponseEntity<Participant> updateParticipantById(@RequestBody Participant participant) {
 
-        var updatedParticipant = service.updateParticipant(id, participant);
+        var updatedParticipant = service.updateParticipantRole(participant);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
