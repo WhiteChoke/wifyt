@@ -14,6 +14,6 @@ public interface ParticipantService {
     Participant getParticipantById(Long id);
     Participant updateParticipant(Long id, Participant newParticipant);
     void deleteParticipantById(Long id);
-    void createAndSaveParticipantByUserId(Long id, UserRoles role, ChatEntity chat);
-    void createAndSaveParticipantByUserId(List<Long> ids, ChatEntity chat);
+    void createParticipantByUserId(Long id, UserRoles role, ChatEntity chat);
+    void createParticipantsByUserIds(List<Long> ids, ChatEntity chat);
 }

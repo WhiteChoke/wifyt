@@ -85,7 +85,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void createAndSaveParticipantByUserId(Long id, UserRoles role, ChatEntity chat) {
+    public void createParticipantByUserId(Long id, UserRoles role, ChatEntity chat) {
 
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
@@ -100,7 +100,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void createAndSaveParticipantByUserId(List<Long> ids, ChatEntity chat) {
+    public void createParticipantsByUserIds(List<Long> ids, ChatEntity chat) {
 
         var users = userRepository.findAllById(ids);
         List<ParticipantEntity> participantEntityList = new ArrayList<>();

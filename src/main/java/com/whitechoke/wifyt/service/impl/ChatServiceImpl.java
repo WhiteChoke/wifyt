@@ -105,8 +105,8 @@ public class ChatServiceImpl implements ChatService {
 
         var createdChat = chatRepository.save(chatToSave);
 
-        participantService.createAndSaveParticipantByUserId(ownerId, UserRoles.OWNER, createdChat);
-        participantService.createAndSaveParticipantByUserId(chatToCreate.participantList(), createdChat);
+        participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat);
+        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat);
 
         return chatMapper.toDomain(createdChat);
     }
