@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -93,6 +94,14 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.delete(chatToDelete);
 
         log.info("Deleted chat with id: {}", id);
+    }
+
+    @Override
+    public List<Chat> getUserChats(Long userId) {
+
+        var chatList = chatRepository.getUserChats(userId);
+
+        return chatList.stream().map(chatMapper::toDomain).toList();
     }
 
     @Override

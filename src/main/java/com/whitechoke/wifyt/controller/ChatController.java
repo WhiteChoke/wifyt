@@ -1,6 +1,7 @@
 package com.whitechoke.wifyt.controller;
 
 import com.whitechoke.wifyt.dto.Chat;
+import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.service.ChatService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/chat")
 @AllArgsConstructor
 public class ChatController {
     
     private final ChatService service;
-    
+
+    @GetMapping("user/{id}")
+    public ResponseEntity<List<Chat>> getUserChats(@PathVariable Long id){
+
+        var chats = service.getUserChats(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(chats);
+    }
+
     @PostMapping
     public ResponseEntity<Chat> createPersonalChat(@RequestBody Chat chatToCreate) {
         
