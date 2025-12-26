@@ -40,5 +40,12 @@ public class ChatEntity {
     @OneToMany(mappedBy = "chat")
     private List<ParticipantEntity> participantList;
 
-    public ChatEntity() {};
+    public ChatEntity() {}
+
+    public ChatEntity(Long id, String name, Instant createdAt, ChatType type) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.type = type;
+    }
 }

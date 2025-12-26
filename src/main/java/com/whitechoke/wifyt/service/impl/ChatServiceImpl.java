@@ -34,6 +34,9 @@ public class ChatServiceImpl implements ChatService {
         if (chatToCreate.name() == null) {
             throw new IllegalArgumentException("Chat name cannot be empty");
         }
+        if (chatToCreate.participantList().size() != 2) {
+            throw new IllegalArgumentException("Participant list length for personal chat should be 2");
+        }
 
         var chat = chatMapper.toEntity(chatToCreate);
         chat.setCreatedAt(Instant.now());
@@ -107,6 +110,8 @@ public class ChatServiceImpl implements ChatService {
         chatToSave.setType(ChatType.GROUP);
 
         var createdChat = chatRepository.save(chatToSave);
+
+        chatToCreate.participantList().remove(ownerId);
 
         participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat);
         participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat);
