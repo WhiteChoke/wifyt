@@ -26,6 +26,14 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User id and creation time should be empty");
         }
 
+        if (
+                userToCreate.email() == null ||
+                userToCreate.password() == null ||
+                userToCreate.username() == null
+        ) {
+            throw new IllegalArgumentException("username, email and password cannot be empty");
+        }
+
         var userToSave = mapper.toEntity(userToCreate);
         userToSave.setCreatedAt(Instant.now());
 
