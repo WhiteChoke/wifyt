@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final BCryptPasswordEncoder encoder;
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
         var userToSave = mapper.toEntity(userToCreate);
         userToSave.setCreatedAt(Instant.now());
+        log.info(userToSave.getPassword());
+        userToSave.setPassword(encoder.encode(userToCreate.password()));
 
         var createdUser = userRepository.save(userToSave);
 
