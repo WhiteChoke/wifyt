@@ -3,11 +3,15 @@ package com.whitechoke.wifyt.service.impl;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.dto.mapper.UserMapper;
 import com.whitechoke.wifyt.repository.UserRepository;
+import com.whitechoke.wifyt.service.JWTService;
 import com.whitechoke.wifyt.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
     private final BCryptPasswordEncoder encoder;
+    private final JWTService jwtService;
+    private final AuthenticationManager authManager;
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -87,5 +93,18 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userToDelete);
 
         log.info("Deleted user with id: {}", id);
+    }
+
+    @Override
+    public String verify(User user) {
+
+        Authentication authentication =
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.username(), user.password()));
+
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken();
+        }
+
+        return "";
     }
 }

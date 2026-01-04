@@ -23,7 +23,7 @@ public class UserController {
 
     private final UserService service;
 
-    @PostMapping
+    @PostMapping("register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
 
         var createdUser = service.createUser(user);
@@ -31,6 +31,17 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdUser);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+
+        var token = service.verify(user);
+
+        return  ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(token);
+
     }
 
     @GetMapping("{id}")
