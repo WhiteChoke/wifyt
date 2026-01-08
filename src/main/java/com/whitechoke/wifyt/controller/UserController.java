@@ -1,5 +1,6 @@
 package com.whitechoke.wifyt.controller;
 
+import com.whitechoke.wifyt.dto.RequestToCreateUser;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.service.UserService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody RequestToCreateUser user) {
 
         var createdUser = service.createUser(user);
 
