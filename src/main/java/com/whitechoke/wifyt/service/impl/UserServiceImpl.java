@@ -1,9 +1,11 @@
 package com.whitechoke.wifyt.service.impl;
 
+import com.whitechoke.wifyt.dto.RequestToCreateUser;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.dto.mapper.UserMapper;
 import com.whitechoke.wifyt.repository.UserRepository;
 import com.whitechoke.wifyt.service.UserService;
+import com.whitechoke.wifyt.web.validate.ValidateUser;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,20 +21,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
     private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final ValidateUser validate;
 
     @Override
-    public User createUser(User userToCreate) {
-        if (userToCreate.id() != null || userToCreate.createdAt() != null) {
-            throw new IllegalArgumentException("User id and creation time should be empty");
-        }
+    public User createUser(RequestToCreateUser userToCreate) {
 
-        if (
-                userToCreate.email() == null ||
-                userToCreate.password() == null ||
-                userToCreate.username() == null
-        ) {
-            throw new IllegalArgumentException("username, email and password cannot be empty");
-        }
+        validate.validateUser(userToCreate);
 
         var userToSave = mapper.toEntity(userToCreate);
         userToSave.setCreatedAt(Instant.now());
