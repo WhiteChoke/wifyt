@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.web.validate;
 
-import com.whitechoke.wifyt.dto.UserRequest;
+import com.whitechoke.wifyt.dto.user.UserRequest;
 import org.springframework.stereotype.Component;
 
 @Component
