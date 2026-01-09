@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.Message;
+import com.whitechoke.wifyt.dto.message.Message;
 import com.whitechoke.wifyt.service.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

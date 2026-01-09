@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.service;
 
-import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.participant.Participant;
 import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
 import com.whitechoke.wifyt.enums.UserRoles;
 import org.springframework.stereotype.Service;

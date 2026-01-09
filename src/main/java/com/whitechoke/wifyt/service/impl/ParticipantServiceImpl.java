@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.service.impl;
 
-import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.participant.Participant;
 import com.whitechoke.wifyt.dto.mapper.ParticipantMapper;
 import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
 import com.whitechoke.wifyt.entity.ChatEntity;
@@ -14,7 +14,6 @@ import com.whitechoke.wifyt.service.ParticipantService;
 import com.whitechoke.wifyt.web.validate.ValidateParticipant;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

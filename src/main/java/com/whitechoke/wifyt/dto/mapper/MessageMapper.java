@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.dto.mapper;
 
-import com.whitechoke.wifyt.dto.Message;
+import com.whitechoke.wifyt.dto.message.Message;
 import com.whitechoke.wifyt.entity.MessageEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

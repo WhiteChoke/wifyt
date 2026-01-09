@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.participant.Participant;
 import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
 import com.whitechoke.wifyt.service.ParticipantService;
 import lombok.AllArgsConstructor;

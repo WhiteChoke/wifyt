@@ -1,11 +1,7 @@
 package com.whitechoke.wifyt.service;
 
-import com.whitechoke.wifyt.dto.Message;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.Payload;
+import com.whitechoke.wifyt.dto.message.Message;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public interface MessageService {

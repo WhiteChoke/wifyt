@@ -1,4 +1,4 @@
-package com.whitechoke.wifyt.dto;
+package com.whitechoke.wifyt.dto.participant;
 
 import com.whitechoke.wifyt.enums.UserRoles;
 import jakarta.validation.constraints.NotNull;

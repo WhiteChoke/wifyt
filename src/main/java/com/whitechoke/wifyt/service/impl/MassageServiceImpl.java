@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.service.impl;
 
-import com.whitechoke.wifyt.dto.Message;
+import com.whitechoke.wifyt.dto.message.Message;
 import com.whitechoke.wifyt.dto.mapper.MessageMapper;
 import com.whitechoke.wifyt.repository.MessageRepository;
 import com.whitechoke.wifyt.service.MessageService;

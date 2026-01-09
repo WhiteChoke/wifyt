@@ -1,10 +1,9 @@
-package com.whitechoke.wifyt.dto;
+package com.whitechoke.wifyt.dto.message;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public record Message(
         @Null

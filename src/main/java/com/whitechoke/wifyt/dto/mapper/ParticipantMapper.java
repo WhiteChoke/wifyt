@@ -1,11 +1,10 @@
 package com.whitechoke.wifyt.dto.mapper;
 
-import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.participant.Participant;
 import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
 import com.whitechoke.wifyt.entity.ParticipantEntity;
 import com.whitechoke.wifyt.repository.ChatRepository;
 import com.whitechoke.wifyt.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
