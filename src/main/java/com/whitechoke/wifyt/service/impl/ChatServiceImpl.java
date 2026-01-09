@@ -1,14 +1,16 @@
 package com.whitechoke.wifyt.service.impl;
 
-import com.whitechoke.wifyt.dto.Chat;
-import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.chat.Chat;
+import com.whitechoke.wifyt.dto.chat.ChatRequest;
 import com.whitechoke.wifyt.dto.mapper.ChatMapper;
 import com.whitechoke.wifyt.enums.ChatType;
 import com.whitechoke.wifyt.enums.UserRoles;
 import com.whitechoke.wifyt.repository.ChatRepository;
 import com.whitechoke.wifyt.service.ChatService;
 import com.whitechoke.wifyt.service.ParticipantService;
+import com.whitechoke.wifyt.web.validate.ValidateChat;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,19 +27,13 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
     private final ParticipantService  participantService;
     private final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
+    private final ValidateChat validate;
 
     @Override
-    public Chat createPersonalChat(Chat chatToCreate) {
+    @Transactional
+    public Chat createPersonalChat(ChatRequest chatToCreate) {
 
-        if (chatToCreate.id() != null || chatToCreate.createdAt() != null) {
-            throw new IllegalArgumentException("Chat id and creation time should be empty");
-        }
-        if (chatToCreate.name() == null) {
-            throw new IllegalArgumentException("Chat name cannot be empty");
-        }
-        if (chatToCreate.participantList().size() != 2) {
-            throw new IllegalArgumentException("Participant list length for personal chat should be 2");
-        }
+        validate.validatePersonalChat(chatToCreate);
 
         var chat = chatMapper.toEntity(chatToCreate);
         chat.setCreatedAt(Instant.now());
@@ -45,7 +41,7 @@ public class ChatServiceImpl implements ChatService {
 
         var createdChat = chatRepository.save(chat);
 
-        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat);
+        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat.getId());
 
         log.info("created chat with id: {}", createdChat.getId());
 
@@ -62,17 +58,13 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat updateChat(Long id, Chat newChat) {
+    @Transactional
+    public Chat updateChat(Long id, ChatRequest newChat) {
 
         var oldChat = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));
 
-        if (newChat.id() != null || newChat.createdAt() != null) {
-            throw new IllegalArgumentException("Chat id and creation time should be empty");
-        }
-        if (newChat.name() == null) {
-            throw new IllegalArgumentException("Chat name cannot be empty");
-        }
+        validate.validateChat(newChat);
 
         var updatedChat = chatMapper.toEntity(newChat);
         updatedChat.setId(id);
@@ -86,6 +78,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public void deleteChatById(Long id) {
 
         var chatToDelete = chatRepository.findById(id)
@@ -105,14 +98,10 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat createGroupChat(Long ownerId, Chat chatToCreate) {
+    @Transactional
+    public Chat createGroupChat(Long ownerId, ChatRequest chatToCreate) {
 
-        if (chatToCreate.id() != null || chatToCreate.createdAt() != null) {
-            throw new IllegalArgumentException("Chat id and creation time should be empty");
-        }
-        if (chatToCreate.name() == null) {
-            throw new IllegalArgumentException("Chat name cannot be empty");
-        }
+        validate.validateChat(chatToCreate);
 
         var chatToSave = chatMapper.toEntity(chatToCreate);
         chatToSave.setCreatedAt(Instant.now());
@@ -122,8 +111,8 @@ public class ChatServiceImpl implements ChatService {
 
         chatToCreate.participantList().remove(ownerId);
 
-        participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat);
-        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat);
+        participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat.getId());
+        participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat.getId());
 
         return chatMapper.toDomain(createdChat);
     }
