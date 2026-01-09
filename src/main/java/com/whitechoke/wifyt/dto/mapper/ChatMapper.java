@@ -1,9 +1,9 @@
 package com.whitechoke.wifyt.dto.mapper;
 
 import com.whitechoke.wifyt.dto.chat.Chat;
+import com.whitechoke.wifyt.dto.chat.ChatRequest;
 import com.whitechoke.wifyt.entity.ChatEntity;
 import com.whitechoke.wifyt.entity.ParticipantEntity;
-import com.whitechoke.wifyt.repository.ParticipantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +12,6 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class ChatMapper {
-
-    private final ParticipantRepository participantRepository;
 
     public Chat toDomain(ChatEntity entity) {
 
@@ -42,5 +40,14 @@ public class ChatMapper {
                 dto.createdAt(),
                 dto.chatType()
         );
+    }
+
+    public ChatEntity toEntity(ChatRequest request) {
+
+        var entity = new ChatEntity();
+        entity.setName(request.name());
+        entity.setType(request.chatType());
+
+        return entity;
     }
 }
