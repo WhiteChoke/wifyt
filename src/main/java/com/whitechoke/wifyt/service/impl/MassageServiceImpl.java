@@ -2,9 +2,12 @@ package com.whitechoke.wifyt.service.impl;
 
 import com.whitechoke.wifyt.dto.message.Message;
 import com.whitechoke.wifyt.dto.mapper.MessageMapper;
+import com.whitechoke.wifyt.dto.message.MessageRequest;
 import com.whitechoke.wifyt.repository.MessageRepository;
 import com.whitechoke.wifyt.service.MessageService;
+import com.whitechoke.wifyt.web.validate.ValidateMessage;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,23 +24,13 @@ public class MassageServiceImpl implements MessageService {
     private final MessageMapper mapper;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final Logger logger = LoggerFactory.getLogger(MassageServiceImpl.class);
+    private final ValidateMessage validate;
 
     @Override
+    @Transactional
+    public Message createMessage(MessageRequest messageToCreate) {
 
-    public Message createMessage(Message messageToCreate) {
-        if (
-                messageToCreate.id() != null ||
-                messageToCreate.createdAt() != null
-        ) {
-            throw new IllegalArgumentException("message id and creation time should be empty");
-        }
-        if (
-                messageToCreate.senderId() == null ||
-                messageToCreate.chatId() == null ||
-                messageToCreate.message() == null
-        ) {
-            throw new IllegalArgumentException("sender id, chat id and message cannot be empty");
-        }
+        validate.validateMessage(messageToCreate);
 
         var message = mapper.toEntity(messageToCreate);
         message.setCreated_at(Instant.now());
@@ -56,20 +49,10 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message updateMessage(String id, Message newMessage) {
-        if (
-                newMessage.id() != null ||
-                newMessage.createdAt() != null
-        ) {
-            throw new IllegalArgumentException("message id and creation time should be empty");
-        }
-        if (
-                newMessage.senderId() == null ||
-                newMessage.chatId() == null ||
-                newMessage.message() == null
-        ) {
-            throw new IllegalArgumentException("sender id, chat id and message cannot be empty");
-        }
+    @Transactional
+    public Message updateMessage(String id, MessageRequest newMessage) {
+
+        validate.validateMessage(newMessage);
 
         var oldMessage =  messageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found message by id: " + id));
@@ -84,6 +67,7 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
+    @Transactional
     public void deleteMessageById(String id) {
         var message = messageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found message by id: " + id));
@@ -92,7 +76,9 @@ public class MassageServiceImpl implements MessageService {
     }
 
     @Override
-    public void handleIncomingMessage(Long chatId, Message message) {
+    @Transactional
+    @Deprecated
+    public void handleIncomingMessage(Long chatId, MessageRequest message) {
 
         var response = createMessage(message);
 

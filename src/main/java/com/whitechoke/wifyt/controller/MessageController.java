@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.message.Message;
+import com.whitechoke.wifyt.dto.message.MessageRequest;
 import com.whitechoke.wifyt.service.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,7 +18,7 @@ public class MessageController {
 
     @MessageMapping("/chat/{chatId}")
     public void handleIncomingMessage(@DestinationVariable Long chatId,
-                                      @Payload Message message) {
+                                      @Payload MessageRequest message) {
             service.handleIncomingMessage(chatId, message);
     }
 }
