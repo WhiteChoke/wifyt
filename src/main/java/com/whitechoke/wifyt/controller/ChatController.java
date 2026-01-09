@@ -1,7 +1,7 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.Chat;
-import com.whitechoke.wifyt.dto.User;
+import com.whitechoke.wifyt.dto.chat.Chat;
+import com.whitechoke.wifyt.dto.chat.ChatRequest;
 import com.whitechoke.wifyt.service.ChatService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class ChatController {
     }
 
     @PostMapping
-    public ResponseEntity<Chat> createPersonalChat(@RequestBody Chat chatToCreate) {
+    public ResponseEntity<Chat> createPersonalChat(@RequestBody ChatRequest chatToCreate) {
         
         var createdChat = service.createPersonalChat(chatToCreate);
         
@@ -47,7 +47,7 @@ public class ChatController {
     }
 
     @PostMapping("{ownerId}")
-    public ResponseEntity<Chat> createGroupChat(@RequestBody Chat chatToCreate,
+    public ResponseEntity<Chat> createGroupChat(@RequestBody ChatRequest chatToCreate,
                                                 @PathVariable Long ownerId) {
 
         var createdChat = service.createGroupChat(ownerId, chatToCreate);
@@ -69,7 +69,7 @@ public class ChatController {
 
     @PutMapping("{id}")
     public ResponseEntity<Chat> updateChat(@PathVariable Long id,
-                                           @RequestBody Chat ChatToUpdate) {
+                                           @RequestBody ChatRequest ChatToUpdate) {
 
         var updatedChat = service.updateChat(id, ChatToUpdate);
 

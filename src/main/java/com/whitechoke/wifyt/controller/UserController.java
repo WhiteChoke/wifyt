@@ -1,7 +1,7 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.UserRequest;
-import com.whitechoke.wifyt.dto.User;
+import com.whitechoke.wifyt.dto.user.UserRequest;
+import com.whitechoke.wifyt.dto.user.User;
 import com.whitechoke.wifyt.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
