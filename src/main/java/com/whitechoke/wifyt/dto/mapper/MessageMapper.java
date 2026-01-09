@@ -1,6 +1,7 @@
 package com.whitechoke.wifyt.dto.mapper;
 
 import com.whitechoke.wifyt.dto.message.Message;
+import com.whitechoke.wifyt.dto.message.MessageRequest;
 import com.whitechoke.wifyt.entity.MessageEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,5 +28,14 @@ public class MessageMapper {
                 dto.message(),
                 dto.createdAt()
         );
+    }
+
+    public MessageEntity toEntity(MessageRequest request) {
+        var entity = new MessageEntity();
+        entity.setSenderId(request.senderId());
+        entity.setChatId(request.chatId());
+        entity.setMessage(request.message());
+
+        return entity;
     }
 }

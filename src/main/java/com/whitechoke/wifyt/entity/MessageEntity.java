@@ -19,4 +19,6 @@ public class MessageEntity {
     // will soon be replaced by
     private String message;
     private Instant created_at;
+
+    public MessageEntity() {}
 }
