@@ -1,7 +1,7 @@
 package com.whitechoke.wifyt.service.impl;
 
-import com.whitechoke.wifyt.dto.UserRequest;
-import com.whitechoke.wifyt.dto.User;
+import com.whitechoke.wifyt.dto.user.UserRequest;
+import com.whitechoke.wifyt.dto.user.User;
 import com.whitechoke.wifyt.dto.mapper.UserMapper;
 import com.whitechoke.wifyt.repository.UserRepository;
 import com.whitechoke.wifyt.service.UserService;

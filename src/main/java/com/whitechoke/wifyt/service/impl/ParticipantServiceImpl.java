@@ -9,7 +9,10 @@ import com.whitechoke.wifyt.enums.UserRoles;
 import com.whitechoke.wifyt.repository.ParticipantRepository;
 import com.whitechoke.wifyt.repository.UserRepository;
 import com.whitechoke.wifyt.service.ParticipantService;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ParticipantServiceImpl implements ParticipantService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
     private final ParticipantMapper mapper;
@@ -79,10 +84,12 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void createParticipantByUserId(Long id, UserRoles role, ChatEntity chat) {
+    public void createParticipantByUserId(Long id, UserRoles role, Long chatId) {
 
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
+
+        var chat = entityManager.find(ChatEntity.class, chatId);
 
         var participant = new ParticipantEntity(
                 user,
@@ -94,10 +101,12 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void createParticipantsByUserIds(List<Long> ids, ChatEntity chat) {
+    public void createParticipantsByUserIds(List<Long> ids, Long chatId) {
 
         var users = userRepository.findAllById(ids);
         List<ParticipantEntity> participantEntityList = new ArrayList<>();
+
+        var chat = entityManager.find(ChatEntity.class, chatId);
 
         for  (UserEntity user : users) {
             participantEntityList.add(
