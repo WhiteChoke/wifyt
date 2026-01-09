@@ -1,4 +1,4 @@
-package com.whitechoke.wifyt.dto;
+package com.whitechoke.wifyt.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 

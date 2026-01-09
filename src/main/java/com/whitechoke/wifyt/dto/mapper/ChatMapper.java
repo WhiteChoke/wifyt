@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.dto.mapper;
 
-import com.whitechoke.wifyt.dto.Chat;
+import com.whitechoke.wifyt.dto.chat.Chat;
 import com.whitechoke.wifyt.entity.ChatEntity;
 import com.whitechoke.wifyt.entity.ParticipantEntity;
 import com.whitechoke.wifyt.repository.ParticipantRepository;
@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor

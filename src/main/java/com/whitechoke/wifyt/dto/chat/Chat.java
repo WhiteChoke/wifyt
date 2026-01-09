@@ -1,4 +1,4 @@
-package com.whitechoke.wifyt.dto;
+package com.whitechoke.wifyt.dto.chat;
 
 import com.whitechoke.wifyt.enums.ChatType;
 import jakarta.validation.constraints.NotNull;
