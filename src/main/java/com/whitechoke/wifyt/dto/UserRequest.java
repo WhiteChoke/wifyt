@@ -2,7 +2,7 @@ package com.whitechoke.wifyt.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record RequestToCreateUser (
+public record UserRequest(
         @NotNull
         String username,
         String phoneNumber,

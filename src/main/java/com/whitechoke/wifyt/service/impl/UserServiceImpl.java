@@ -1,12 +1,13 @@
 package com.whitechoke.wifyt.service.impl;
 
-import com.whitechoke.wifyt.dto.RequestToCreateUser;
+import com.whitechoke.wifyt.dto.UserRequest;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.dto.mapper.UserMapper;
 import com.whitechoke.wifyt.repository.UserRepository;
 import com.whitechoke.wifyt.service.UserService;
 import com.whitechoke.wifyt.web.validate.ValidateUser;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,8 @@ public class UserServiceImpl implements UserService {
     private final ValidateUser validate;
 
     @Override
-    public User createUser(RequestToCreateUser userToCreate) {
+    @Transactional
+    public User createUser(UserRequest userToCreate) {
 
         validate.validateUser(userToCreate);
 
@@ -48,11 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(Long id, User userToUpdate) {
-
-        if (userToUpdate.id() != null || userToUpdate.createdAt() != null) {
-            throw new IllegalArgumentException("User id and creation time should be empty");
-        }
+    @Transactional
+    public User updateUser(Long id, UserRequest userToUpdate) {
 
         var oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
@@ -69,6 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUserById(Long id) {
 
         var userToDelete = userRepository.findById(id)

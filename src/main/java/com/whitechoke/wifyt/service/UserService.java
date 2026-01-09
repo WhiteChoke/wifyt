@@ -1,13 +1,13 @@
 package com.whitechoke.wifyt.service;
 
-import com.whitechoke.wifyt.dto.RequestToCreateUser;
+import com.whitechoke.wifyt.dto.UserRequest;
 import com.whitechoke.wifyt.dto.User;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    User createUser(RequestToCreateUser userToCreate);
+    User createUser(UserRequest userToCreate);
     User getUserById(Long id);
-    User updateUser(Long id, User userToUpdate);
+    User updateUser(Long id, UserRequest userToUpdate);
     void deleteUserById(Long id);
 }

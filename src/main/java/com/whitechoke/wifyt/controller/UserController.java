@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.controller;
 
-import com.whitechoke.wifyt.dto.RequestToCreateUser;
+import com.whitechoke.wifyt.dto.UserRequest;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.service.UserService;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody RequestToCreateUser user) {
+    public ResponseEntity<User> createUser(@RequestBody UserRequest user) {
 
         var createdUser = service.createUser(user);
 
@@ -47,7 +47,7 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id,
-                                           @RequestBody User userToUpdate) {
+                                           @RequestBody UserRequest userToUpdate) {
 
         var updatedUser = service.updateUser(id, userToUpdate);
 

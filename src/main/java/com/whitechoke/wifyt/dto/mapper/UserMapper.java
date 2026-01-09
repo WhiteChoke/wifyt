@@ -1,6 +1,6 @@
 package com.whitechoke.wifyt.dto.mapper;
 
-import com.whitechoke.wifyt.dto.RequestToCreateUser;
+import com.whitechoke.wifyt.dto.UserRequest;
 import com.whitechoke.wifyt.dto.User;
 import com.whitechoke.wifyt.entity.UserEntity;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class UserMapper {
         );
     }
 
-    public UserEntity toEntity(RequestToCreateUser request) {
+    public UserEntity toEntity(UserRequest request) {
         var entity = new UserEntity();
         entity.setUsername(request.username());
         entity.setPassword(request.password());
