@@ -43,4 +43,9 @@ public class ParticipantEntity {
         this.role = role;
         this.chat = chat;
     }
+
+    public ParticipantEntity(Long id, UserRoles role) {
+        this.id = id;
+        this.role = role;
+    }
 }

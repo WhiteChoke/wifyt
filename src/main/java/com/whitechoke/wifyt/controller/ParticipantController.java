@@ -1,6 +1,7 @@
 package com.whitechoke.wifyt.controller;
 
 import com.whitechoke.wifyt.dto.Participant;
+import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
 import com.whitechoke.wifyt.service.ParticipantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class ParticipantController {
     private final ParticipantService service;
 
     @PostMapping
-    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participantToCreate) {
+    public ResponseEntity<Participant> createParticipant(@RequestBody ParticipantRequest participantToCreate) {
 
         var createdParticipant = service.createParticipant(participantToCreate);
 
@@ -44,7 +45,7 @@ public class ParticipantController {
     }
 
     @PutMapping()
-    public ResponseEntity<Participant> updateParticipantById(@RequestBody Participant participant) {
+    public ResponseEntity<Participant> updateParticipantById(@RequestBody ParticipantRequest participant) {
 
         var updatedParticipant = service.updateParticipantRole(participant);
 

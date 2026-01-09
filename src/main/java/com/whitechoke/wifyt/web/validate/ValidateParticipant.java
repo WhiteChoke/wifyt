@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidateParticipant {
 
-    public void validate(ParticipantRequest request) {
+    public void validateParticipant(ParticipantRequest request) {
         if (request.userId() == null) {
             throw new IllegalArgumentException("User id cannot be empty");
         }
