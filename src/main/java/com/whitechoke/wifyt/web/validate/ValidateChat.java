@@ -23,4 +23,16 @@ public class ValidateChat {
             throw new IllegalArgumentException("Unable to create a chat with yourself");
         }
     }
+
+    public void validateChat(ChatRequest chat) {
+        if (chat.name() == null || chat.name().isBlank()) {
+            throw new IllegalArgumentException("Chat name cannot be empty");
+        }
+        if (chat.participantList() == null) {
+            throw new IllegalArgumentException("Participants list cannot be null");
+        }
+        if (chat.participantList().isEmpty()) {
+            throw new IllegalArgumentException("Impossible to create a chat without participants");
+        }
+    }
 }
