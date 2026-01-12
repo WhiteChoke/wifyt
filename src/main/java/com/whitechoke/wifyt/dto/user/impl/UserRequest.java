@@ -1,5 +1,6 @@
-package com.whitechoke.wifyt.dto.user;
+package com.whitechoke.wifyt.dto.user.impl;
 
+import com.whitechoke.wifyt.dto.user.User;
 import jakarta.validation.constraints.NotNull;
 
 public record UserRequest(
@@ -10,5 +11,5 @@ public record UserRequest(
         String email,
         @NotNull
         String password
-) {
+) implements User {
 }
