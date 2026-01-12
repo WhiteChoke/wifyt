@@ -11,5 +11,5 @@ public record ChatRequest (
         @NotNull
         ChatType chatType,
         List<Long> participantList
-){
+) implements ChatInterface{
 }

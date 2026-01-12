@@ -33,7 +33,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     public Chat createPersonalChat(ChatRequest chatToCreate) {
 
-        validate.validatePersonalChat(chatToCreate);
+        validate.validateChat(chatToCreate);
 
         var chat = chatMapper.toEntity(chatToCreate);
         chat.setCreatedAt(Instant.now());
