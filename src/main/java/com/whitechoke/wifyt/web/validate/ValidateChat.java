@@ -22,16 +22,21 @@ public class ValidateChat {
         }
 
         if (chat.chatType().equals(ChatType.PERSONAL)){
-            if (chat.participantList().size() != 2) {
-                throw new IllegalArgumentException("Participant list length for personal chat should be 2");
-            }
+            validatePersonalChat(chat);
+        }
+    }
 
-            var firstParticipant = chat.participantList().getFirst();
-            var secondParticipant = chat.participantList().getLast();
+    private <T extends ChatInterface> void validatePersonalChat(T chat) {
 
-            if (firstParticipant.equals(secondParticipant)){
-                throw new IllegalArgumentException("Unable to create a chat with yourself");
-            }
+        if (chat.participantList().size() != 2) {
+            throw new IllegalArgumentException("Participant list length for personal chat should be 2");
+        }
+
+        var firstParticipant = chat.participantList().getFirst();
+        var secondParticipant = chat.participantList().getLast();
+
+        if (firstParticipant.equals(secondParticipant)){
+            throw new IllegalArgumentException("Unable to create a chat with yourself");
         }
     }
 }
