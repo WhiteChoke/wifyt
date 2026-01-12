@@ -16,5 +16,5 @@ public record Message(
         String message,
         @Null
         Instant createdAt
-) {
+) implements MessageInterface{
 }

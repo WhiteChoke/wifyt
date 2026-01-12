@@ -1,12 +1,12 @@
 package com.whitechoke.wifyt.web.validate;
 
-import com.whitechoke.wifyt.dto.message.MessageRequest;
+import com.whitechoke.wifyt.dto.message.MessageInterface;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidateMessage {
 
-    public void validateMessage(MessageRequest request) {
+    public <T extends MessageInterface> void validateMessage(T request) {
         if (request.chatId() == null) {
             throw new IllegalArgumentException("Chat id cannot be empty");
         }

@@ -9,5 +9,5 @@ public record MessageRequest(
         Long chatId,
         @NotNull
         String message
-) {
+) implements MessageInterface{
 }
