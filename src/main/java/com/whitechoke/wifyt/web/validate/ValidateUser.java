@@ -1,12 +1,12 @@
 package com.whitechoke.wifyt.web.validate;
 
-import com.whitechoke.wifyt.dto.user.User;
+import com.whitechoke.wifyt.dto.user.UserInterface;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidateUser {
 
-    public <T extends User> void validateUser(T user) {
+    public <T extends UserInterface> void validateUser(T user) {
         if (user.email() == null) {
             throw new IllegalArgumentException("Email cannot be empty");
         }

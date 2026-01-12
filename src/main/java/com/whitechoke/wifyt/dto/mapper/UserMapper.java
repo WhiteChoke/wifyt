@@ -1,7 +1,7 @@
 package com.whitechoke.wifyt.dto.mapper;
 
-import com.whitechoke.wifyt.dto.user.impl.UserRequest;
-import com.whitechoke.wifyt.dto.user.impl.User;
+import com.whitechoke.wifyt.dto.user.UserRequest;
+import com.whitechoke.wifyt.dto.user.User;
 import com.whitechoke.wifyt.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
