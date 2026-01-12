@@ -1,12 +1,12 @@
 package com.whitechoke.wifyt.web.validate;
 
-import com.whitechoke.wifyt.dto.participant.ParticipantRequest;
+import com.whitechoke.wifyt.dto.participant.ParticipantInterface;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidateParticipant {
 
-    public void validateParticipant(ParticipantRequest request) {
+    public <T extends ParticipantInterface> void validateParticipant(T request) {
         if (request.userId() == null) {
             throw new IllegalArgumentException("User id cannot be empty");
         }

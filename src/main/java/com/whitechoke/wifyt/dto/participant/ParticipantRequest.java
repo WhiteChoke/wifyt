@@ -10,5 +10,5 @@ public record ParticipantRequest (
         UserRoles role,
         @NotNull
         Long chatId
-){
+) implements ParticipantInterface{
 }

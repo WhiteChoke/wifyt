@@ -14,5 +14,5 @@ public record Participant(
         UserRoles role,
         @NotNull
         Long chatId
-) {
+) implements ParticipantInterface {
 }
