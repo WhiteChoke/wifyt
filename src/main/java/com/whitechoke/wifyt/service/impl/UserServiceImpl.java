@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final ValidateUser validate;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     @Transactional
@@ -32,12 +35,19 @@ public class UserServiceImpl implements UserService {
 
         var userToSave = mapper.toEntity(userToCreate);
         userToSave.setCreatedAt(Instant.now());
+        userToSave.setPassword(encoder.encode(userToSave.getPassword()));
 
-        var createdUser = userRepository.save(userToSave);
+        try {
+            var createdUser = userRepository.save(userToSave);
 
-        logger.info("created new user with id: {}", createdUser.getId());
+            logger.info("created new user with id: {}", createdUser.getId());
 
-        return mapper.toDomain(createdUser);
+            return mapper.toDomain(createdUser);
+
+        } catch (DataIntegrityViolationException ex) {
+            return null;
+        }
+
     }
 
     @Override
