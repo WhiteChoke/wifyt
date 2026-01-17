@@ -4,6 +4,7 @@ import com.whitechoke.wifyt.dto.user.UserRequest;
 import com.whitechoke.wifyt.dto.user.User;
 import com.whitechoke.wifyt.dto.mapper.UserMapper;
 import com.whitechoke.wifyt.repository.UserRepository;
+import com.whitechoke.wifyt.service.ExtractDataFromAuth;
 import com.whitechoke.wifyt.service.UserService;
 import com.whitechoke.wifyt.web.validate.ValidateUser;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final ValidateUser validate;
     private final BCryptPasswordEncoder encoder;
+    private final ExtractDataFromAuth extractDataFromAuth;
 
     @Override
     @Transactional
@@ -51,7 +53,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUserById() {
+
+        var id = extractDataFromAuth.getCurrentUserId();
 
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));
@@ -79,7 +83,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUserById(Long id) {
+    public void deleteUserById() {
+
+        var id = extractDataFromAuth.getCurrentUserId();
 
         var userToDelete = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found user by id: " + id));

@@ -34,10 +34,10 @@ public class UserController {
                 .body(createdUser);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    @GetMapping()
+    public ResponseEntity<User> getUserById() {
 
-        var user = service.getUserById(id);
+        var user = service.getUserById();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -57,10 +57,10 @@ public class UserController {
 
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<User> deleteUserByID(@PathVariable Long id) {
+    @DeleteMapping()
+    public ResponseEntity<User> deleteUserById() {
 
-        service.deleteUserById(id);
+        service.deleteUserById();
 
         return ResponseEntity
                 .status(HttpStatus.OK)

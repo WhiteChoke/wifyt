@@ -111,14 +111,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return extractClaims(token).getSubject();
     }
 
-    @Override
-    public Long getCurrentUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        assert auth != null;
-        ChatUserDetails details = (ChatUserDetails) auth.getPrincipal();
-        return details.getId();
-    }
-
     private Claims extractClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
