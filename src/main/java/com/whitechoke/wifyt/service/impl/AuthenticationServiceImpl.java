@@ -2,6 +2,7 @@ package com.whitechoke.wifyt.service.impl;
 
 import com.whitechoke.wifyt.dto.auth.AuthResponse;
 import com.whitechoke.wifyt.dto.user.UserRequest;
+import com.whitechoke.wifyt.security.ChatUserDetails;
 import com.whitechoke.wifyt.service.AuthenticationService;
 import com.whitechoke.wifyt.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -9,6 +10,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final UserService userService;
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -42,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (createdUser != null) {
             String token = generateToken(
-                    userDetailsService.loadUserByUsername(createdUser.username())
+                    (ChatUserDetails) userDetailsService.loadUserByUsername(createdUser.username())
             );
 
             return new AuthResponse(
@@ -57,24 +61,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponse login(String username, String password) {
 
-        authenticationManager.authenticate(
+        var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
 
-        String token = generateToken(
-                userDetailsService.loadUserByUsername(username)
-        );
+        if (authentication.getPrincipal() != null){
+            String token = generateToken(
+                    (ChatUserDetails) authentication.getPrincipal()
+            );
 
-        return new AuthResponse(
-                token,
-                jwtExpiryMs / 1000
-        );
+            return new AuthResponse(
+                    token,
+                    jwtExpiryMs / 1000
+            );
+        } else {
+             logger.error("Got null auth principal");
+             return null;
+        }
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(ChatUserDetails userDetails) {
 
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userDetails.getId());
 
         return Jwts.builder()
                 .claims(claims)
