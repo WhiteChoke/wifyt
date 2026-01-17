@@ -13,4 +13,5 @@ public interface AuthenticationService {
     String generateToken(ChatUserDetails userDetails);
     boolean isTokenValid(String token, UserDetails userDetails);
     String extractUsername(String token);
+    Long getCurrentUserId();
 }
