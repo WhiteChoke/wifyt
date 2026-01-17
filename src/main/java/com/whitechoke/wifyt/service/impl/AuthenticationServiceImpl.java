@@ -1,8 +1,12 @@
 package com.whitechoke.wifyt.service.impl;
 
+import com.whitechoke.wifyt.dto.auth.AuthResponse;
+import com.whitechoke.wifyt.dto.user.UserRequest;
 import com.whitechoke.wifyt.service.AuthenticationService;
+import com.whitechoke.wifyt.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,21 +27,48 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private final Long jwtExpiryMs = 86400000L;
+    @Value("${jwt.expiry-ms}")
+    private Long jwtExpiryMs;
 
     @Override
-    public UserDetails authenticate(String username, String password) {
+    public AuthResponse register(UserRequest request) {
+
+        var createdUser = userService.createUser(request);
+
+        if (createdUser != null) {
+            String token = generateToken(
+                    userDetailsService.loadUserByUsername(createdUser.username())
+            );
+
+            return new AuthResponse(
+                    token,
+                    jwtExpiryMs / 1000
+            );
+        }
+
+        return null;
+    }
+
+    @Override
+    public AuthResponse login(String username, String password) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
 
-        return userDetailsService.loadUserByUsername(username);
+        String token = generateToken(
+                userDetailsService.loadUserByUsername(username)
+        );
 
+        return new AuthResponse(
+                token,
+                jwtExpiryMs / 1000
+        );
     }
 
     @Override
@@ -55,24 +86,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserDetails validateToken(String token) {
-        String username = extractUsername(token);
-        return userDetailsService.loadUserByUsername(username);
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        var claims = extractClaims(token);
+
+        return
+                claims.getSubject().equals(userDetails.getUsername())
+                && !claims.getExpiration().before(new Date());
     }
 
-    private String extractUsername(String token) {
+    @Override
+    public String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
 
-        Claims claims = Jwts.parser()
+    private Claims extractClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
-        return claims.getSubject();
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes();
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

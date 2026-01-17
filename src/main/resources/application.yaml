@@ -15,4 +15,5 @@ spring:
       uri: mongodb://localhost:27017/wifytMongo
 
 jwt:
-  secret: 893697bccb7900415da500d21449fa161ad85c5cd9b5703f28265c855a24c10c
+  secret: 6a9c360d92a48c39e091b5143ec07ce6ebe9954319cbd85bf34505f80d9abfd4
+  expiry-ms: 604800000

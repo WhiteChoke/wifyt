@@ -2,6 +2,7 @@ package com.whitechoke.wifyt.controller;
 
 import com.whitechoke.wifyt.dto.auth.AuthResponse;
 import com.whitechoke.wifyt.dto.auth.LoginRequest;
+import com.whitechoke.wifyt.dto.user.UserRequest;
 import com.whitechoke.wifyt.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,17 +21,19 @@ public class AuthController {
 
     @PostMapping("login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        var userDetails = service.authenticate(
+        var response = service.login(
                 request.username(),
                 request.password()
         );
 
-        var token = service.generateToken(userDetails);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
 
-        AuthResponse response = new AuthResponse(
-                token,
-                86400
-        );
+    @PostMapping("register")
+    public ResponseEntity<AuthResponse> register(@RequestBody UserRequest request) {
+        var response = service.register(request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
