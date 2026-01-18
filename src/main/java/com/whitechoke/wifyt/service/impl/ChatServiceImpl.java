@@ -115,7 +115,7 @@ public class ChatServiceImpl implements ChatService {
         var createdChat = chatRepository.save(chatToSave);
 
         chatToCreate.participantList().remove(ownerId);
-`
+
         participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat.getId());
         participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat.getId());
 
