@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface ChatService {
     Chat createPersonalChat(ChatRequest chatToCreate);
-    Chat createGroupChat(Long ownerId, ChatRequest chatToCreate);
+    Chat createGroupChat(ChatRequest chatToCreate);
     Chat getChatById(Long id);
     Chat updateChat(Long id, ChatRequest newChat);
     void deleteChatById(Long id);
-    List<Chat> getUserChats(Long userId);
+    List<Chat> getUserChats();
 }

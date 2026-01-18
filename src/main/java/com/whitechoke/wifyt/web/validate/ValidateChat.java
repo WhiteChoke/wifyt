@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidateChat {
 
-    public <T extends ChatInterface> void validateChat(T chat) {
+    public <T extends ChatInterface> void validateChat(T chat, ChatType chatType) {
 
         if (chat.name() == null || chat.name().isBlank()) {
             throw new IllegalArgumentException("Chat name cannot be empty");
@@ -21,7 +21,7 @@ public class ValidateChat {
             throw new IllegalArgumentException("Impossible to create a chat without participants");
         }
 
-        if (chat.chatType().equals(ChatType.PERSONAL)){
+        if (chatType.equals(ChatType.PERSONAL)){
             validatePersonalChat(chat);
         }
     }

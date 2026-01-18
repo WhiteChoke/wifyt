@@ -7,6 +7,7 @@ import com.whitechoke.wifyt.enums.ChatType;
 import com.whitechoke.wifyt.enums.UserRoles;
 import com.whitechoke.wifyt.repository.ChatRepository;
 import com.whitechoke.wifyt.service.ChatService;
+import com.whitechoke.wifyt.service.ExtractDataFromAuth;
 import com.whitechoke.wifyt.service.ParticipantService;
 import com.whitechoke.wifyt.web.validate.ValidateChat;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,12 +29,13 @@ public class ChatServiceImpl implements ChatService {
     private final ParticipantService  participantService;
     private final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
     private final ValidateChat validate;
+    private final ExtractDataFromAuth extractDataFromAuth;
 
     @Override
     @Transactional
     public Chat createPersonalChat(ChatRequest chatToCreate) {
 
-        validate.validateChat(chatToCreate);
+        validate.validateChat(chatToCreate, ChatType.PERSONAL);
 
         var chat = chatMapper.toEntity(chatToCreate);
         chat.setCreatedAt(Instant.now());
@@ -64,7 +66,7 @@ public class ChatServiceImpl implements ChatService {
         var oldChat = chatRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Not found chat by id: " + id));
 
-        validate.validateChat(newChat);
+        validate.validateChat(newChat, oldChat.getType());
 
         var updatedChat = chatMapper.toEntity(newChat);
         updatedChat.setId(id);
@@ -90,7 +92,9 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<Chat> getUserChats(Long userId) {
+    public List<Chat> getUserChats() {
+
+        var userId = extractDataFromAuth.getCurrentUserId();
 
         var chatList = chatRepository.getUserChats(userId);
 
@@ -99,9 +103,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public Chat createGroupChat(Long ownerId, ChatRequest chatToCreate) {
+    public Chat createGroupChat(ChatRequest chatToCreate) {
 
-        validate.validateChat(chatToCreate);
+        validate.validateChat(chatToCreate, ChatType.GROUP);
+        var ownerId = extractDataFromAuth.getCurrentUserId();
 
         var chatToSave = chatMapper.toEntity(chatToCreate);
         chatToSave.setCreatedAt(Instant.now());
@@ -110,7 +115,7 @@ public class ChatServiceImpl implements ChatService {
         var createdChat = chatRepository.save(chatToSave);
 
         chatToCreate.participantList().remove(ownerId);
-
+`
         participantService.createParticipantByUserId(ownerId, UserRoles.OWNER, createdChat.getId());
         participantService.createParticipantsByUserIds(chatToCreate.participantList(), createdChat.getId());
 

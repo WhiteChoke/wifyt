@@ -26,17 +26,17 @@ public class ChatController {
     
     private final ChatService service;
 
-    @GetMapping("user/{id}")
+    @GetMapping("user")
     public ResponseEntity<List<Chat>> getUserChats(@PathVariable Long id){
 
-        var chats = service.getUserChats(id);
+        var chats = service.getUserChats();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(chats);
     }
 
-    @PostMapping
+    @PostMapping("personal")
     public ResponseEntity<Chat> createPersonalChat(@RequestBody ChatRequest chatToCreate) {
         
         var createdChat = service.createPersonalChat(chatToCreate);
@@ -46,11 +46,10 @@ public class ChatController {
                 .body(createdChat);
     }
 
-    @PostMapping("{ownerId}")
-    public ResponseEntity<Chat> createGroupChat(@RequestBody ChatRequest chatToCreate,
-                                                @PathVariable Long ownerId) {
+    @PostMapping("group")
+    public ResponseEntity<Chat> createGroupChat(@RequestBody ChatRequest chatToCreate) {
 
-        var createdChat = service.createGroupChat(ownerId, chatToCreate);
+        var createdChat = service.createGroupChat(chatToCreate);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
